@@ -46,6 +46,18 @@ You can access the services using custom domain names via your ingress configura
 
 Make sure these are mapped in your host system (e.g., `/etc/hosts` on Linux or `C:\Windows\System32\drivers\etc\hosts` on Windows).
 
+Let’s walk through the full flow:
+
+    Ingress Resource defines:
+
+        Domain: frontend.app.fastapi
+
+        TLS: Uses secret frontend-tls
+
+        Annotation: cert-manager.io/cluster-issuer: letsencrypt-http
+
+    cert-manager sees this and:
+
 ---
 
 
