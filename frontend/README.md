@@ -10,3 +10,29 @@ Currently, two official plugins are available:
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## 🔁 How Everything Connects
+
+Let’s walk through the full flow:
+
+    Ingress Resource defines:
+
+        Domain: frontend.app.fastapi
+
+        TLS: Uses secret frontend-tls
+
+        Annotation: cert-manager.io/cluster-issuer: letsencrypt-http
+
+    cert-manager sees this and:
+
+        Contacts Let’s Encrypt
+
+        Solves an HTTP-01 challenge (via Traefik Ingress)
+
+        If successful, gets a TLS certificate
+
+    cert-manager stores this certificate in the secret frontend-tls
+
+    Traefik reads this secret and:
+
+        Automatically serves HTTPS for frontend.app.fastapi

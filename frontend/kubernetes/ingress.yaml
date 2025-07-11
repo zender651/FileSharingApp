@@ -2,6 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: app-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-http
 spec:
   ingressClassName: traefik
   rules:
@@ -19,6 +21,10 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: frontend
+                name: frontend-service
                 port:
                   number: 80
+  tls:
+    - hosts:
+        - frontend.app.fastapi
+      secretName: frontend-tls
